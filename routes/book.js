@@ -7,7 +7,7 @@ var Book = require('../models/book')
 router.get('/',
     async (req, res) => {
       try {
-        Book.find((err,books) => {
+        Book.find({}).sort({'created_at':'desc'}).exec((err,books) => {
             return res.json({
               message: '',
               data: books
