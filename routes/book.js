@@ -25,8 +25,7 @@ router.post(
   '/add',
   async (req, res) => {
     try {
-      const book = await new Book(req.body).save()
- 
+      const book = await (new Book(req.body)).save();
       return res.json({
         message: 'Created new book successfully!',
         data: book
