@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var mongodb = require('mongodb');
 var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
@@ -12,9 +13,10 @@ var booksRouter = require('./routes/book');
 
 var app = express();
 
-const MONGODB_HOST = '127.0.0.1';
-const MONGODB_DATABASE = 'tabcorp';
-const MONGODB_PORT = '27017';
+// const MONGODB_HOST = '127.0.0.1';
+const MONGODB_HOST = 'vtphuoc1040:vantranphuoc1040@ds227146.mlab.com'
+const MONGODB_DATABASE = 'heroku_t9ws3d0w';
+const MONGODB_PORT = '27146';
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -35,11 +37,13 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+var mongoClient = mongodb.MongoClient;
+//mongodb://<dbuser>:<dbpassword>@ds227146.mlab.com:27146/heroku_t9ws3d0w
+var databaseUrl = `mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}`;
 // Connect to MongoDB:
 mongoose.connect(
-    `mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}`,
-    { useNewUrlParser: true }
-  )
+  databaseUrl,
+  { useNewUrlParser: true });
 
 // error handler
 app.use(function(err, req, res, next) {

@@ -8,7 +8,10 @@ router.get('/',
     async (req, res) => {
       try {
         Book.find((err,books) => {
-            return res.json(books);
+            return res.json({
+              message: '',
+              data: books
+            });
         })
       } catch (e) {
         return handlePageError(res, e)
@@ -22,11 +25,11 @@ router.post(
   '/add',
   async (req, res) => {
     try {
-      const post = await new Book(req.body).save()
+      const book = await new Book(req.body).save()
  
       return res.json({
         message: 'Created new book successfully!',
-        data: post
+        data: book
       })
     } catch (e) {
       return handlePageError(res, e)
